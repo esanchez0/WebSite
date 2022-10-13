@@ -12,24 +12,24 @@ export const MenuIzquierda = ({classes}) => (
         </List>
         <Divider />
         <List>
-            <ListItem component={Link} button to="/curso/nuevo">
+            <ListItem component={Link} button to="/solicitud/nueva">
                 <i className="material-icons">add_box</i>
-                <ListItemText classes={{primary: classes.listItemText}} primary="Nuevo Curso" />
+                <ListItemText classes={{primary: classes.listItemText}} primary="Nueva Solicitud" />
             </ListItem>
-            <ListItem component={Link} button to="/curso/paginador">
+            <ListItem component={Link} button to="/solicitud/lista">
                 <i className="material-icons">menu_book</i>
-                <ListItemText classes={{primary: classes.listItemText}} primary ="Lista Cursos" />
+                <ListItemText classes={{primary: classes.listItemText}} primary ="Lista Solicitudes" />
             </ListItem>
         </List>
         <Divider />
         <List>
-            <ListItem component={Link} button  to="/instructor/nuevo">
+            <ListItem component={Link} button  to="/usuario/nuevo">
                  <i className="material-icons">person_add</i>
-                 <ListItemText classes={{primary: classes.listItemText}} primary="Nuevo Instructor" />
+                 <ListItemText classes={{primary: classes.listItemText}} primary="Nuevo Usuario" />
             </ListItem>
-            <ListItem component={Link} button to="/instructor/lista">
+            <ListItem component={Link} button to="/usuario/nuevo">
                 <i className="material-icons">people</i>
-                <ListItemText classes={{primary: classes.listItemText}} primary="Lista Instructor"/>
+                <ListItemText classes={{primary: classes.listItemText}} primary="Lista usuarios"/>
             </ListItem>
         </List>
     </div>

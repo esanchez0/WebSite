@@ -92,3 +92,19 @@ export const loginUsuario = (usuario, dispatch) => {
       });
   });
 };
+
+export const obtenerUsuariosXRoles = (rol) => {
+  return new Promise((resolve, eject) => {
+    instancia.get("/Usuario/" + rol).then((Response) => {
+      resolve(Response);
+    });
+  });
+};
+
+export const obtenerRoles = () => {
+  return new Promise((resolve, eject) => {
+    instancia.get("/Rol/lista").then((Response) => {
+      resolve(Response);
+    });
+  });
+};

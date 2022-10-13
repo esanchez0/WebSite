@@ -9,12 +9,11 @@ import {
   Avatar,
 } from "@material-ui/core";
 import {
-  actualizarUsuario,
-  obtenerUsuarioActual,
+  actualizarUsuario
 } from "../../actions/UsuarioAction";
 import { useStateValue } from "../../contexto/store";
 
-import reactFoto from "../../logo.svg";
+import reactFoto from "../Tool/LogoSiric.jpg" //"../../logo.svg";
 import { v4 as uuidv4 } from "uuid";
 import ImageUploader from "react-images-upload";
 import { obtenerDataImagen } from "../../actions/ImagenAction";

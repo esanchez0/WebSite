@@ -11,7 +11,7 @@ import {
   ListItem,
   ListItemText,
 } from "@material-ui/core";
-import FotoUsuarioTemp from "../../../logo.svg";
+import FotoUsuarioTemp from "./../../Tool/LogoSiric.jpg"//../../../logo.svg";
 import { useStateValue } from "../../../contexto/store";
 import { MenuIzquierda } from "./menuIzquierda";
 import { MenuDerecha } from "./menuDerecha";
@@ -124,7 +124,7 @@ const BarSesion = (props) => {
           <i className="material-icons">menu</i>
         </IconButton>
 
-        <Typography variant="h6">Cursos Online</Typography>
+        <Typography variant="h6">Creditos SIRIC</Typography>
         <div className={classes.grow}></div>
 
         <div className={classes.seccionDesktop}>

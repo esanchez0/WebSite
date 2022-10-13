@@ -40,7 +40,8 @@ const Login = (props) => {
   const loginUsuarioBoton = (e) => {
     e.preventDefault();
     loginUsuario(usuario, dispatch).then((response) => {
-      console.log("response.data.token", response.data.token);
+      // console.log("response.data.token", response.data.token);
+      console.log(usuario);
       if (response.status === 200) {
         window.localStorage.setItem("token_seguridad", response.data.token);
         props.history.push("/");

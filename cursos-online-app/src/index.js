@@ -1,12 +1,12 @@
 import React from "react";
-import reportWebVitals from "./reportWebVitals";
+// import reportWebVitals from "./reportWebVitals";
 import App from "./App";
 import ReactDOM from "react-dom";
 import { initialState } from "./contexto/initialState"; //A qui se concentran todas las sesiones
 import { StateProvider } from "./contexto/store"; // Inicizlizador del contenedor de variables globales
 import { mainReducer } from "./contexto/reducers"; //indice de variables globales
 
-import { useContext, useEffect, useRef } from "react";
+// import { useContext, useEffect, useRef } from "react";
 
 ReactDOM.render(
   // <React.StrictMode>

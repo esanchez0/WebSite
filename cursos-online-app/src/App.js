@@ -13,10 +13,19 @@ import PerfilUsuario from "./componentes/seguridad/PerfilUsuario";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import AppNavbar from "./componentes/navegacion/AppNavbar";
 import { useStateValue } from "./contexto/store";
-import { obtenerUsuarioActual } from "./actions/UsuarioAction";
+import { obtenerUsuarioActual, registrarUsuario } from "./actions/UsuarioAction";
 import RutaSegura from "./componentes/navegacion/RutaSegura";
 import NuevoCurso from "./componentes/Cursos/NuevoCurso";
 import PaginadorCurso from "./componentes/Cursos/PaginadorCurso";
+import NuevoSolicitante from "./componentes/Solicitante/NuevoSolicitante";
+import FINANMADRID_ARRENDADOR from "./componentes/CuestionariosDeVisitas/FINANMADRID_ARRENDADOR";
+import FINANMADRID_EMPLEADO from "./componentes/CuestionariosDeVisitas/FINANMADRID_EMPLEADO";
+import FINANMADRID_EMPRESARIAL from "./componentes/CuestionariosDeVisitas/FINANMADRID_EMPRESARIAL";
+import NuevaSolicitud from "./componentes/Solicitud/NuevaSolicitud";
+import MostrarSolicitudes from "./componentes/Solicitud/MostrarSolicitudes";
+
+
+import testpopup from "./componentes/Solicitud/testpopup";
 
 function App() {
   const [{ sesionUsuario, openSnackbar }, dispatch] = useStateValue(); //useStateValue = inicializador del contenedor todo el contexto de la aplicacion
@@ -70,11 +79,28 @@ function App() {
                 path="/auth/registrar"
                 component={RegistrarUsuario}
               />
-
+              
+              {/*Usuarios*/} 
               <RutaSegura exact path="/auth/perfil" component={PerfilUsuario} />
+              <RutaSegura exact path="/usuario/nuevo" component={RegistrarUsuario} />
+               
+              {/*Solicitudes*/} 
+              <RutaSegura exact path="/solicitud/nueva" component={NuevaSolicitud} />
+              <RutaSegura exact path="/solicitud/lista" component={MostrarSolicitudes} />
 
+
+
+
+              {/* <RutaSegura exact path="/usuario/lista" component={RegistrarUsuario} /> */}
+
+              {/* <RutaSegura exact path="/auth/perfil" component={PerfilUsuario} /> */}
+              {/* <RutaSegura exact path="/auth/perfil" component={NuevoSolicitante} /> */}
+              {/* <RutaSegura exact path="/auth/perfil" component={FINANMADRID_EMPRESARIAL} /> */}
+              {/* <RutaSegura exact path="/auth/perfil" component={NuevaSolicitud} /> */}
+              
+              
+            
               <RutaSegura exact path="/" component={PerfilUsuario} />
-
               <RutaSegura exact path="/curso/nuevo" component={NuevoCurso} />
 
               <RutaSegura

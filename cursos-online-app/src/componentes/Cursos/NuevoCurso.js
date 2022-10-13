@@ -122,7 +122,7 @@ const NuevoCurso = () => {
     <Container component="main" maxWidth="md" justifycontent="center">
       <div style={style.paper}></div>
       <Typography component="h1" variant="h5">
-        Registro Nuevo Curso
+        Registro Nuevo Solicitud
       </Typography>
       <form style={style.form}>
         <Grid container spacing={2}>
