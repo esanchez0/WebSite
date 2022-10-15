@@ -1,90 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { paginacionCurso } from "../../actions/CursoAction";
-import {
-  TableContainer,
-  Paper,
-  TableHead,
-  TableBody,
-  Table,
-  TableRow,
-  TableCell,
-  TablePagination,
-  Hidden,
-  Grid,
-  TextField,
-} from "@material-ui/core";
+import { Modal, Button, Box } from "@material-ui/core";
 import ControlTyping from "../Tool/ControlTyping";
+import NuevaSolicitud from "./NuevaSolicitud";
+import ModalEditar from "./ModalEditar";
+import ModalDetalles from "./ModalDetalles";
 
 import { obtenerSolicitudes } from "../../actions/SolicitudAction";
 
 const MostrarSolicitudes = () => {
-  //   const [textoBusquedaCurso, setTextoBusquedaCurso] = useState("");
-  //   const typingBuscadorTexto = ControlTyping(textoBusquedaCurso, 900);
-
-  //   const [paginadorRequest, setPaginadorRequest] = useState({
-  //     titulo: "",
-  //     numeroPagina: 0,
-  //     cantidadElementos: 5,
-  //   });
-
-  //   const [paginadorResponse, setPaginadorResponse] = useState({
-  //     listaRecords: [],
-  //     totalRecords: 0,
-  //     numeroPaginas: 0,
-  //   });
-
-  //   useEffect(() => {
-  //     const obtenerListaCurso = async () => {
-  //       let tituloVariant = "";
-  //       let paginaVariant = paginadorRequest.numeroPagina + 1;
-
-  //       if (typingBuscadorTexto) {
-  //         tituloVariant = typingBuscadorTexto;
-  //         paginaVariant = 1;
-  //       }
-
-  //       const objetoPaginadorRequest = {
-  //         titulo: tituloVariant,
-  //         numeroPagina: paginaVariant,
-  //         cantidadElementos: paginadorRequest.cantidadElementos,
-  //       };
-
-  //       const response = await obtenerSolicitudes();
-  //       console.log(response.data);
-  //       setPaginadorResponse(response.data);
-  //     };
-
-  //     obtenerListaCurso();
-  //   }, [paginadorRequest, typingBuscadorTexto]);
-
-  //   const cambiarPagina = (event, nuevaPagina) => {
-  //     setPaginadorRequest((anterior) => ({
-  //       ...anterior,
-  //       numeroPagina: parseInt(nuevaPagina),
-  //     }));
-  //   };
-
-  //   const cambiarCantidadRecords = (event) => {
-  //     setPaginadorRequest((anterior) => ({
-  //       ...anterior,
-  //       cantidadElementos: parseInt(event.target.value),
-  //       numeroPagina: 0,
-  //     }));
-  //   };
-
-  const [solicitud, setSolicitud] = useState({
-    NombreCliente: "",
-    PerfilActividad: "",
-    Coordinacion: "",
-    Analista: "",
-    Asesor: "",
-  });
+  const [open, setopen] = useState(false);
+  const [openDetalles, setopenDetalles] = useState(false);
+  const [solicitud, setSolicitud] = useState([]);
+  const [Information, setInformation] = useState({});
 
   const [iniciaApp, setIniciaApp] = useState(true);
   useEffect(() => {
     const obtenerLineaNegocio = async () => {
       const response = await obtenerSolicitudes();
       setSolicitud(response.data);
+
       setIniciaApp(false);
     };
 
@@ -99,59 +34,135 @@ const MostrarSolicitudes = () => {
 
   console.log("rows rows rows", rows);
 
-  return (
-    <div style={{ padding: "10px", width: "100%" }}>
-      <Grid container style={{ paddingTop: "20px", paddingBottom: "20px" }}>
-        {/* <Grid item xs={12} sm={4} md={6}>
-            <TextField
-              fullWidth
-              name="textoBusquedaCurso"
-              variant="outlined"
-              label="Busca tu curso"
-              onChange={(e) => setTextoBusquedaCurso(e.target.value)}
-            />
-          </Grid> */}
-      </Grid>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              {/* <TableCell align="left">Nombre Cliente</TableCell> */}
-              <Hidden mdDown>
-                <TableCell align="left">Nombre del cliente</TableCell>
-                <TableCell align="left">Perfil actividad economica</TableCell>
-                <TableCell align="left">Coordinacion</TableCell>
-                <TableCell align="left">Analista</TableCell>
-              </Hidden>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {/* {rows.map((curso) => ( */}
-            {rows.map((row, index) => (
-              <TableRow key={row.llaveUnica}>
-                {/* <TableCell align="left">{curso.nombreCliente}</TableCell> */}
+  const handleOpen = () => {
+    setopen(!open);
+  };
 
-                <Hidden mdDown>
-                  <TableCell align="left">{row.nombreCliente}</TableCell>
-                  <TableCell align="left">{row.perfilActividadEconomica}</TableCell>
-                  <TableCell align="left">{row.coordinacion}</TableCell>
-                  <TableCell align="left">{row.analista}</TableCell>
-                </Hidden>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      {/* <TablePagination
-          component="div"
-          rowsPerPageOptions={[5, 10, 25]}
-          count={paginadorResponse.totalRecords}
-          rowsPerPage={paginadorRequest.cantidadElementos}
-          page={paginadorRequest.numeroPagina}
-          onPageChange={cambiarPagina}
-          onRowsPerPageChange={cambiarCantidadRecords}
-          labelRowsPerPage="Cursos por pagina"
-        /> */}
+  const handleOpenDetalles = () => {
+    setInformation();
+    setopenDetalles(!openDetalles);
+  };
+
+  return (
+    <div className="flex flex-col  w-full mt-10 ">
+      <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+          <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+            <table className="min-w-full divide-y divide-gray-200 ">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Nombre Cliente
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Perfil Actividad
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Coordinacion
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Analista
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Asesor
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3  text-xs font-medium text-gray-500 uppercase tracking-wider mx-auto"
+                  >
+                    Acción
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {rows.map((row) => (
+                  <tr key={row.nombreCliente}>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm text-gray-900">
+                        {row.nombreCliente}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm text-gray-900">
+                        {row.perfilActividadEconomica}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm text-gray-900">
+                        {row.coordinacion}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm text-gray-900">
+                        {row.analista}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm text-gray-900">{row.asesor}</div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap  ">
+                      <div className="text-sm text-gray-900 flex flex-col md:flex-row mx-auto justify-between  ">
+                        <button
+                          onClick={() => {
+                            setopen(true);
+                            setInformation(row);
+                          }}
+                          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-5 md:mt-0 mt-5 "
+                        >
+                          Editar
+                        </button>
+                        <button
+                          onClick={() => {
+                            setopenDetalles(true);
+                            setInformation(row);
+                          }}
+                          className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mx-5 md:mt-0 mt-5 "
+                        >
+                          Detalles
+                        </button>
+                        <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-5 md:mt-0 mt-5 ">
+                          Agregar cita
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <ModalEditar
+        open={open}
+        handleOpen={handleOpen}
+        Information={Information}
+        setopen={setopen}
+      />
+
+      <ModalDetalles
+        openDetalles={openDetalles}
+        handleOpenDetalles={handleOpenDetalles}
+        Information={Information}
+        setopenDetalles={setopenDetalles}
+        setInformation={setInformation}
+      />
+
     </div>
   );
 };

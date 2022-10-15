@@ -1,6 +1,7 @@
 import React from "react";
 // import reportWebVitals from "./reportWebVitals";
 import App from "./App";
+import './index.css';
 import ReactDOM from "react-dom";
 import { initialState } from "./contexto/initialState"; //A qui se concentran todas las sesiones
 import { StateProvider } from "./contexto/store"; // Inicizlizador del contenedor de variables globales
