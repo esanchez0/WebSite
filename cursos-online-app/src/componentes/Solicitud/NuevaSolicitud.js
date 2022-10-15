@@ -166,7 +166,7 @@ const NuevaSolicitud = () => {
 
   useEffect(() => {
     const obtenerAnalista = async () => {
-      const response = await obtenerUsuariosXRoles("Administrador");
+      const response = await obtenerUsuariosXRoles("Asesor Bancario");
       setAsesor(response.data);
       console.log("La Data Combo Asesor", response.data);
       setIniciaApp(false);
@@ -232,7 +232,7 @@ const NuevaSolicitud = () => {
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    label="Seleccione"
+                    label="Seleccione Linea de Negocio"
                     variant="outlined"
                   />
                 )}
