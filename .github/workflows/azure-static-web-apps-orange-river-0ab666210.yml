@@ -29,7 +29,7 @@ jobs:
           # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
           app_location: "cursos-online-app" # App source code path
           output_location: "public"
-          app_build_command: "npm run build-ui-prod"
+          app_build_command: "npm run cursos-online-app"
           #output_location: "build" # Built app content directory - optional
           #skip_app_build: true
           ###### End of Repository/Build Configurations ######
