@@ -27,7 +27,8 @@ jobs:
           action: "upload"
           ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
           # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
-          app_location: "cursos-online-app" # App source code path
+          app_location: "cursos-online-app/src" # App source code path
+          output_location: "public"
           #output_location: "build" # Built app content directory - optional
           #skip_app_build: true
           ###### End of Repository/Build Configurations ######
