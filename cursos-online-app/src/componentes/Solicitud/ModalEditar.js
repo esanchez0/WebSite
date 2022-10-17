@@ -8,7 +8,7 @@ const ModalEditar = ({open, setopen}) => {
 
 
   const handleOpen = () => {     
-    setopen(true);
+    setopen(true); 
   };
 
   return (
