@@ -5,12 +5,14 @@ import ControlTyping from "../Tool/ControlTyping";
 import NuevaSolicitud from "./NuevaSolicitud";
 import ModalEditar from "./ModalEditar";
 import ModalDetalles from "./ModalDetalles";
+import ModalagregarCita from "./ModalagregarCita";
 
 import { obtenerSolicitudes } from "../../actions/SolicitudAction";
 
 const MostrarSolicitudes = () => {
   const [open, setopen] = useState(false);
   const [openDetalles, setopenDetalles] = useState(false);
+  const [openCita, setopenCita] = useState(false);
   const [solicitud, setSolicitud] = useState([]);
   const [Information, setInformation] = useState({});
 
@@ -41,6 +43,10 @@ const MostrarSolicitudes = () => {
   const handleOpenDetalles = () => {
     setInformation();
     setopenDetalles(!openDetalles);
+  };
+
+  const handleOpenCita = () => {
+    setopenCita(!openCita);
   };
 
   return (
@@ -135,7 +141,10 @@ const MostrarSolicitudes = () => {
                         >
                           Detalles
                         </button>
-                        <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-5 md:mt-0 mt-5 ">
+                        <button
+                          onClick={() => setopenCita(true)}
+                          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-5 md:mt-0 mt-5 "
+                        >
                           Agregar cita
                         </button>
                       </div>
@@ -163,6 +172,13 @@ const MostrarSolicitudes = () => {
         setInformation={setInformation}
       />
 
+      <ModalagregarCita
+        openCita={openCita}
+        handleOpenCita={handleOpenCita}
+        Information={Information}
+        setopenCita={setopenCita}
+        setInformation={setInformation}
+      />
     </div>
   );
 };
