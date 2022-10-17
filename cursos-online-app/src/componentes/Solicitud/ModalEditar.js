@@ -17,7 +17,7 @@ const ModalEditar = ({open, setopen}) => {
       onClose={handleOpen}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
-      style={{ overflow: "scroll" }}
+      style={{ overflow: "scroll", scrollSnapType: "y mandatory" }}
     >
       <Box>
         <div className="flex flex-col justify-center items-center  bg-slate-300 md:w-1/2 w-11/12 mx-auto snap-y">
