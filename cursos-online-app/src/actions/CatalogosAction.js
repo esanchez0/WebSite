@@ -5,13 +5,6 @@ const instancia = axios.create();
 instancia.CancelToken = axios.CancelToken;
 instancia.isCancel = axios.isCancel;
 
-// export const catalogosComunes = (catalogo) => {
-//   return new Promise((resolve, eject) => {
-//     instancia.post("/catalogo/"+catalogo).then((Response) => {
-//       resolve(Response);
-//     });
-//   });
-// };
 
 export const catalogosComunes = (catalogo) => {
     return new Promise((resolve, eject) => {
@@ -20,4 +13,27 @@ export const catalogosComunes = (catalogo) => {
       });
     });
   };
+
+  export const obtenerEstado = () => {
+    return new Promise((resolve, eject) => {
+        instancia.get("/catalogo/ObtenerEstado/" ).then((response) => {
+        resolve(response);
+      });
+    });
+  };
+
+  export const obtenerMunicipioXEstadoId = (idEstado) => {
+    return new Promise((resolve, eject) => {
+        instancia.get("/catalogo/ObtenerMunicipio?idEstado=" + idEstado).then((response) => {
+        resolve(response);
+      });
+    });
+  };
   
+  export const catalogoEstatus = () => {
+    return new Promise((resolve, eject) => {
+        instancia.get("/catalogo/Estatus").then((response) => {
+        resolve(response);
+      });
+    });
+  };

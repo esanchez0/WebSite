@@ -15,23 +15,42 @@ import { registrarSolicitud } from "../../actions/SolicitudAction";
 import { catalogosComunes } from "../../actions/CatalogosAction";
 import { obtenerUsuariosXRoles } from "../../actions/UsuarioAction";
 import logo from "../Tool/LogoSiric.jpg";
+import { obtenerEstado } from "../../actions/CatalogosAction";
+import { obtenerMunicipioXEstadoId } from "../../actions/CatalogosAction";
 
 const NuevaSolicitud = () => {
   const [{ sesionUsuario }, dispatch] = useStateValue();
   const [solicitud, setSolicitud] = useState({
-    idMotivoDelEstudio: 0,
-    idCoordinacion: 0,
     idLineaDeNegocio: 0,
-    idPerfilActividadEconomica: 0,
+    //Datos del cliente
     nombre: "",
     apellidoPaterno: "",
     apellidoMaterno: "",
     telefonoCasa: "",
     telefonoEmpleo: "",
     telefonoCelular: "",
-    idAsesor: "",
+    idPerfilActividadEconomica: 0,
+    //Datos de la solicitud
+    idCoordinacion: 0,
+    idAsesor: 0,
     idAnalista: 0,
-    idEstatus: "013ef650-e683-40c9-9e57-35f00028165f"
+    idMotivoDelEstudio: 0,
+    //Direcciones
+    listaDeDirecciones: [
+      {
+      calle: "OTE 108",
+      numeroInterior: "2955",
+      numeroExterior: "string",
+      colonia: "LA RAMOS",
+      codigoPostal: 5800,
+      calle1: "157",
+      calle2: "159",
+      referencias: "DIRECCION DE CLIENTE 1",
+      idMunicipio: "4CA9EF41-E55D-4C03-B91D-6BF243F318C3"
+      }
+    ]
+
+    // idEstatus: "013ef650-e683-40c9-9e57-35f00028165f",
   });
 
   const ingresarValoresMemoria = (e) => {
@@ -182,10 +201,58 @@ const NuevaSolicitud = () => {
     }));
   };
 
+  //------- COMBO Estado
+  const initialValueEstado = [{ estadoId: 0, nombre: "" }];
+  const [ComboEstado, setEstado] = useState(initialValueEstado);
+
+  useEffect(() => {
+    const obtenerEstados = async () => {
+      const response = await obtenerEstado();
+      setEstado(response.data);
+      console.log("La Data Combo Estado", response.data);
+      setIniciaApp(false);
+    };
+
+    obtenerEstados();
+  }, [iniciaApp]);
+
+  const changeobtenerEstado = (e) => {
+    console.log("Id estado", e.estadoId);
+    setSolicitud((anterior) => ({
+      ...anterior,
+      idAsesor: e.estadoId,
+    }));
+  };
+
+  //------- COMBO Municipio
+  const initialValueMunicipio = [{ municipioId: 0, nombre: "" }];
+  const [ComboMunicipio, setMunicipio] = useState(initialValueMunicipio);
+  
+  useEffect(() => {
+    const obtenerMunicipios = async () => {
+      const response = await obtenerMunicipioXEstadoId("3500B752-1325-41AA-AAD9-9A27E12543A1");
+      setMunicipio(response.data);
+      console.log("La Data Combo Municipio", response.data);
+      setIniciaApp(false);
+    };
+
+    obtenerMunicipios();
+  }, [iniciaApp]);
+
+
+  const changeobtenerMunicipio = (e) => {
+    console.log("Id Municipio", e.municipioId);
+    setSolicitud((anterior) => ({
+      ...anterior,
+      idAsesor: e.municipioId,
+    }));
+  };
+
   const guardarSolicitud = (e) => {
     e.preventDefault();
     console.log("Esto se manda", solicitud);
     registrarSolicitud(solicitud, dispatch).then((response) => {
+      console.log("JSON ",JSON.stringify(solicitud));
       // console.log("response.data.token", response.data.token);
       console.log(solicitud);
       if (response.status === 200) {
@@ -356,6 +423,42 @@ const NuevaSolicitud = () => {
               />
             </Grid>
             <Grid item xs={12} md={6}>
+              <Autocomplete
+                onChange={(event, newValue) => {
+                  changeobtenerEstado(newValue);
+                }}
+                id="idEstado"
+                name="idEstado"
+                options={ComboEstado}
+                getOptionLabel={(option) => option.nombre}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Seleccione Estado"
+                    variant="outlined"
+                  />
+                )}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Autocomplete
+                onChange={(event, newValue) => {
+                  changeobtenerMunicipio(newValue);
+                }}
+                id="idMunicipio"
+                name="idMunicipio"
+                options={ComboMunicipio}
+                getOptionLabel={(option) => option.nombre}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Seleccione Municipio"
+                    variant="outlined"
+                  />
+                )}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
               <TextField
                 name="codigoPostal"
                 value={solicitud.codigoPostal || ""}
@@ -441,11 +544,7 @@ const NuevaSolicitud = () => {
                   options={ComboAsesor}
                   getOptionLabel={(option) => option.nombreCompleto}
                   renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Asesor"
-                      variant="outlined"
-                    />
+                    <TextField {...params} label="Asesor" variant="outlined" />
                   )}
                 />
               </Grid>
@@ -514,7 +613,7 @@ const NuevaSolicitud = () => {
                 color="primary"
                 style={style.submit}
               >
-                Guardar Datos
+                Guardar Datos Dos
               </Button>
             </Grid>
           </Grid>
