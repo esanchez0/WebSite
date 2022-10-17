@@ -7,14 +7,14 @@ import NuevaSolicitud from "./NuevaSolicitud";
 const ModalEditar = ({open, setopen}) => {
 
 
-  const handleOpen = () => {
+  const handleOpen = () => {     
     setopen(true);
   };
 
   return (
     <Modal
       open={open}
-      onClose={handleOpen}
+      onClose={handleOpen} 
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
       style={{ overflow: "scroll", scrollSnapType: "y mandatory" }}
