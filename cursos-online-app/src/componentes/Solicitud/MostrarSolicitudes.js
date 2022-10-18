@@ -16,7 +16,6 @@ const MostrarSolicitudes = () => {
   const [solicitud, setSolicitud] = useState([]);
   const [idSolicitud, setidSolicitud] = useState("");
   const [Information, setInformation] = useState({});
-
   const [iniciaApp, setIniciaApp] = useState(true);
   useEffect(() => {
     const obtenerLineaNegocio = async () => {
@@ -137,6 +136,7 @@ const MostrarSolicitudes = () => {
                           onClick={() => {
                             setopenDetalles(true);
                             setInformation(row);
+                            setidSolicitud(row.idSolicitud);  
                           }}
                           className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mx-5 md:mt-0 mt-5 "
                         >
@@ -175,6 +175,7 @@ const MostrarSolicitudes = () => {
         Information={Information}
         setopenDetalles={setopenDetalles}
         setInformation={setInformation}
+        idSolicitud={idSolicitud}
       />
 
       <ModalagregarCita

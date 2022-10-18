@@ -100,7 +100,7 @@ const ModalagregarCita = ({
 
     >
       <Box>
-        <div className="flex flex-col justify- items-center md:w-auto w-11/12 mx-auto snap-y ">
+        <div className="flex flex-col justify- items-center md:w-auto w-11/12 mx-auto ">
           <div className="w-full max-w-lg">
             <div className="flex flex-col items-center my-10 bg-gray-100 w-full mx-auto p-1 rounded-md  ">
               <MuiPickersUtilsProvider utils={DateFnsUtils}>

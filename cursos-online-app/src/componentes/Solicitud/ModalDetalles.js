@@ -1,5 +1,7 @@
 import React from "react";
 import { Modal, Box, TextField } from "@material-ui/core";
+import  { useState } from "react";
+import id from "date-fns/esm/locale/id/index.js";
 
 const ModalDetalles = ({
   openDetalles,
@@ -7,14 +9,18 @@ const ModalDetalles = ({
   Information,
   setInformation,
   handleOpenDetalles,
+  idSolicitud
 }) => {
+
+  const [idDetalles, setidDetalles] = useState();
   return (
+  
     <Modal
       open={openDetalles}
       onClose={handleOpenDetalles}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
-      style={{ overflow: "scroll" }}
+      style={{ overflow: "scroll"  }}
     >
       <Box>
         <div className="flex flex-col justify- items-center md:w-auto w-11/12 mx-auto snap-y py-10">
@@ -87,7 +93,11 @@ const ModalDetalles = ({
 
               <div className="flex flex-row mt-5">
                 <button
-                  onClick={() => setopenDetalles(false)}
+                  onClick={() => {
+                    setopenDetalles(false)
+                    console.log(idSolicitud)
+                    setidDetalles(idSolicitud)
+                  }}
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-5 md:mt-0 mt-5 "
                 >
                   Guardar
