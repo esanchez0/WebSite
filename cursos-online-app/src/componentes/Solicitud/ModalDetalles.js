@@ -15,13 +15,14 @@ const ModalDetalles = ({
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
       style={{ overflow: "scroll" }}
-      
     >
       <Box>
-        <div className="flex flex-col justify-center items-center  bg-slate-300 md:w-1/2 w-11/12 mx-auto snap-y">
-          <form className="w-full max-w-lg">
-            <div className="flex flex-col justify-center items-center my-10 bg-slate-300 w-1/2 mx-auto">
+        <div className="flex flex-col justify- items-center md:w-auto w-11/12 mx-auto snap-y py-10">
+          <div className="w-full max-w-lg">
+            <div className="flex flex-col items-center  bg-gray-100 w-full mx-auto p-1 rounded-md">
               <TextField
+              style={{marginTop: "10px"}}
+              
                 id="outlined-multiline-static"
                 label="Nombre Cliente"
                 defaultValue={Information.nombreCliente}
@@ -100,7 +101,7 @@ const ModalDetalles = ({
                 </button>
               </div>
             </div>
-          </form>
+          </div>
         </div>
       </Box>
     </Modal>

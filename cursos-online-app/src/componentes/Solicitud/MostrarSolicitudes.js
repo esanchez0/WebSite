@@ -14,6 +14,7 @@ const MostrarSolicitudes = () => {
   const [openDetalles, setopenDetalles] = useState(false);
   const [openCita, setopenCita] = useState(false);
   const [solicitud, setSolicitud] = useState([]);
+  const [idSolicitud, setidSolicitud] = useState("");
   const [Information, setInformation] = useState({});
 
   const [iniciaApp, setIniciaApp] = useState(true);
@@ -97,7 +98,7 @@ const MostrarSolicitudes = () => {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {rows.map((row) => (
-                  <tr key={row.nombreCliente}>
+                  <tr key={row.idSolicitud}>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-900">
                         {row.nombreCliente}
@@ -142,7 +143,11 @@ const MostrarSolicitudes = () => {
                           Detalles
                         </button>
                         <button
-                          onClick={() => setopenCita(true)}
+                          onClick={() => {
+                            setopenCita(true);
+                            setidSolicitud(row.idSolicitud);
+                            console.log(row.idSolicitud);
+                          }}
                           className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-5 md:mt-0 mt-5 "
                         >
                           Agregar cita
@@ -175,7 +180,7 @@ const MostrarSolicitudes = () => {
       <ModalagregarCita
         openCita={openCita}
         handleOpenCita={handleOpenCita}
-        Information={Information}
+        idSolicitud={idSolicitud}
         setopenCita={setopenCita}
         setInformation={setInformation}
       />

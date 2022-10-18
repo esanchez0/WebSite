@@ -20,11 +20,11 @@ const ModalEditar = ({open, setopen}) => {
       style={{ overflow: "scroll", scrollSnapType: "y mandatory" }}
     >
       <Box>
-        <div className="flex flex-col justify-center items-center  bg-slate-300 md:w-1/2 w-11/12 mx-auto snap-y">
+        <div className="flex flex-col justify-center items-center  bg-gray-100 md:w-1/2 w-11/12 mx-auto snap-y">
           <NuevaSolicitud />
           <button
             onClick={() => setopen(false)}
-            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mx-5 mt-5 "
+            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mx-5 mt-5  "
           >
             Cancelar
           </button>
