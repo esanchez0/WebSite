@@ -123,7 +123,7 @@ const MostrarSolicitudes = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap  ">
                       <div className="text-sm text-gray-900 flex flex-col md:flex-row mx-auto justify-between  ">
-                        <button
+                        {/* <button
                           onClick={() => {
                             setopen(true);
                             setInformation(row);
@@ -131,7 +131,7 @@ const MostrarSolicitudes = () => {
                           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-5 md:mt-0 mt-5 "
                         >
                           Editar
-                        </button>
+                        </button> */}
                         <button
                           onClick={() => {
                             setopenDetalles(true);

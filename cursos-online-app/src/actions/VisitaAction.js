@@ -13,3 +13,11 @@ export const registrarVisita = (visita) => {
       });
     });
   };
+
+  export const consultarDetalleVisita = (idSolicitud) => {
+    return new Promise((resolve, eject) => {
+        instancia.get("/Visita/"+idSolicitud).then((response) => {
+        resolve(response);
+      });
+    });
+  };

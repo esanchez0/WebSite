@@ -16,6 +16,10 @@ import {
 } from "@material-ui/pickers";
 import id from "date-fns/esm/locale/id/index.js";
 import { set } from "date-fns/esm";
+import { registrarVisita } from "../../actions/VisitaAction";
+import { useStateValue } from "../../contexto/store";
+
+
 
 const ModalagregarCita = ({
   openCita,
@@ -23,15 +27,18 @@ const ModalagregarCita = ({
   setopenCita,
   idSolicitud,
 }) => {
+
+  const [{ sesionUsuario }, dispatch] = useStateValue();
+
   const [infoCita, setinfoCita] = useState({
     fechaInicio: new Date(),
     fechaFin: new Date(),
-    horaInicio: new Date(),
+    hora: new Date(),
     idPrimeroEn: "",
     idVisitador: "",
     observaciones: "",
     idEstatus: "",
-    idSolicitud: "",
+    idSolicitud: idSolicitud.idSolicitud,
   });
 
   const [PrimeroEn, setPrimeroEn] = useState([]);
@@ -54,6 +61,47 @@ const ModalagregarCita = ({
     obtenerLineaNegocio();
   }, [iniciaApp]);
 
+
+  const guardarVisita = (e) => {
+    e.preventDefault();
+
+    setinfoCita({
+      ...infoCita,
+      idSolicitud: idSolicitud,
+    });
+    console.log("La Data Enviar", JSON.stringify(infoCita, null, 2));
+
+
+
+    registrarVisita(infoCita, dispatch).then((response) => {
+      // console.log("JSON ",JSON.stringify(solicitud));
+      // console.log("response.data.token", response.data.token);
+      if (response.status === 200) {
+
+        dispatch({
+          type: "OPEN_SNACKBAR",
+          openMensaje: {
+            open: true,
+            mensaje: "Visita agregada",
+          },
+        });
+
+        handleOpenCita(!openCita);
+
+      } else {
+        console.log(response);
+        console.log("error:  ", response);
+        dispatch({
+          type: "OPEN_SNACKBAR",
+          openMensaje: {
+            open: true,
+            mensaje: "Error",
+          },
+        });
+      }
+    });
+  };
+  
   const enviarDatos = () => {
     setinfoCita({
       ...infoCita,
@@ -147,9 +195,9 @@ const ModalagregarCita = ({
                       margin="normal"
                       id="time-picker"
                       label="Hora"
-                      value={infoCita.horaInicio}
+                      value={infoCita.hora}
                       onChange={(e) =>
-                        setinfoCita({ ...infoCita, horaInicio: e })
+                        setinfoCita({ ...infoCita, hora: e })
                       }
                       KeyboardButtonProps={{
                         "aria-label": "change time",
@@ -228,9 +276,10 @@ const ModalagregarCita = ({
 
               <div className="flex flex-row mt-5">
                 <button
-                  onClick={() => {
-                    enviarDatos();
-                  }}
+                  // onClick={() => {
+                  //   guardarVisita();
+                  // }}
+                  onClick={guardarVisita}
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-5 md:mt-0 mt-5 "
                 >
                   Guardar

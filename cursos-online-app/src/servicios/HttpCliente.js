@@ -1,8 +1,8 @@
 import axios from "axios";
 
- axios.defaults.baseURL = "https://creditossiricweb.azurewebsites.net/api";
+ //axios.defaults.baseURL = "https://creditossiricweb.azurewebsites.net/api";
 
-// axios.defaults.baseURL = "http://localhost:41395/api";
+ axios.defaults.baseURL = "http://localhost:41395/api";
 
 axios.interceptors.request.use(
   (config) => {
