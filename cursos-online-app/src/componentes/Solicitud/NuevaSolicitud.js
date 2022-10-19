@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import style from "../Tool/Style";
+import { Modal, Box } from "@material-ui/core";
 import {
   Container,
   Typography,
@@ -20,6 +21,10 @@ import { obtenerMunicipioXEstadoId } from "../../actions/CatalogosAction";
 
 const NuevaSolicitud = () => {
   const [{ sesionUsuario }, dispatch] = useStateValue();
+  const [Direccion, setDireccion] = useState({});
+  const [Referencias, setReferencias] = useState("")
+
+
   const [solicitud, setSolicitud] = useState({
     idLineaDeNegocio: 0,
     //Datos del cliente
@@ -37,21 +42,121 @@ const NuevaSolicitud = () => {
     idMotivoDelEstudio: 0,
     //Direcciones
     listaDeDirecciones: [
-      {
-      calle: "OTE 108",
-      numeroInterior: "2955",
-      numeroExterior: "string",
-      colonia: "LA RAMOS",
-      codigoPostal: 5800,
-      calle1: "157",
-      calle2: "159",
-      referencias: "DIRECCION DE CLIENTE 1",
-      idMunicipio: "4CA9EF41-E55D-4C03-B91D-6BF243F318C3"
-      }
-    ]
+      //Add 3 objects with directions to the array
+    ],
 
     // idEstatus: "013ef650-e683-40c9-9e57-35f00028165f",
   });
+
+  const [estadoid, setestadoid] = useState("");
+  const [Botones, setBotones] = useState([
+    { id: 1, titulo: "Direccion particular", estado: false },
+    { id: 2, titulo: "Direccion de negocio", estado: false },
+    { id: 3, titulo: "Direccion adicional", estado: false },
+  ]);
+
+  const [open, setopen] = useState(false);
+
+  const [Titulo, setTitulo] = useState("");
+
+  const handleOpen = () => {
+    setopen(true);
+  };
+
+  const obtenerEstadoid = async (Estado) => {
+    const Id = ComboEstado.filter((item) => item.nombre === Estado);
+    setestadoid(Id[0].estadoId);
+    obtenerMunicipios(Id[0].estadoId);
+  };
+
+  const botonElegido = (id) => {
+if(Botones,id===1){
+  setTitulo("Direccion particular")
+}
+if(Botones,id===2){
+  setTitulo("Direccion de negocio")
+}
+if(Botones,id===3){
+  setTitulo("Direccion adicional")
+}
+
+  };
+
+  const cancelar = () => {
+    setopen(false);
+    //put all the buttons on false
+    const botones = Botones.map((boton) => {
+      boton.estado = false;
+      return boton;
+    });
+  };
+
+  const Guardar = () => {
+    //if titulo is direccion particular then add the object to the array  direccion and add transformacion:"trabajo"
+
+    if (Titulo === "Direccion particular") {
+
+        const direccion = {
+          calle: Direccion.calle,
+          numeroExterior: Direccion.numeroExterior,
+          numeroInterior: Direccion.numeroInterior,
+          colonia: Direccion.colonia,
+          codigoPostal: parseInt(Direccion.codigoPostal),
+          idMunicipio: Direccion.municipio,
+          referencias:"Particular",
+        };
+    
+        const lista = solicitud.listaDeDirecciones;
+        lista.push(direccion);
+        setSolicitud({
+          ...solicitud,
+          listaDeDirecciones: lista,
+        });
+    
+      
+  };
+
+  if(Titulo === "Direccion de negocio"){
+    const direccion = {
+      calle: Direccion.calle,
+      numeroExterior: Direccion.numeroExterior,
+      numeroInterior: Direccion.numeroInterior,
+      colonia: Direccion.colonia,
+      codigoPostal: parseInt(Direccion.codigoPostal),
+      idMunicipio: Direccion.municipio,
+      referencias:"Negocio",
+    };
+
+    const lista = solicitud.listaDeDirecciones;
+    lista.push(direccion);
+    setSolicitud({
+      ...solicitud,
+      listaDeDirecciones: lista,
+    });
+  }
+
+  if(Titulo === "Direccion adicional"){
+    const direccion = {
+      
+      calle: Direccion.calle,
+      numeroExterior: Direccion.numeroExterior,
+      numeroInterior: Direccion.numeroInterior,
+      colonia: Direccion.colonia,
+      codigoPostal: parseInt(Direccion.codigoPostal),
+      idMunicipio: Direccion.municipio,
+      referencias:"Adicional",
+    };
+
+    const lista = solicitud.listaDeDirecciones;
+    lista.push(direccion);
+    setSolicitud({
+      ...solicitud,
+      listaDeDirecciones: lista,
+    });
+  }
+
+  setopen(false);
+}
 
   const ingresarValoresMemoria = (e) => {
     const { name, value } = e.target;
@@ -227,18 +332,13 @@ const NuevaSolicitud = () => {
   //------- COMBO Municipio
   const initialValueMunicipio = [{ municipioId: 0, nombre: "" }];
   const [ComboMunicipio, setMunicipio] = useState(initialValueMunicipio);
-  
-  useEffect(() => {
-    const obtenerMunicipios = async () => {
-      const response = await obtenerMunicipioXEstadoId("3500B752-1325-41AA-AAD9-9A27E12543A1");
-      setMunicipio(response.data);
-      console.log("La Data Combo Municipio", response.data);
-      setIniciaApp(false);
-    };
 
-    obtenerMunicipios();
-  }, [iniciaApp]);
-
+  const obtenerMunicipios = async (id) => {
+    const response = await obtenerMunicipioXEstadoId(id);
+    setMunicipio(response.data);
+    console.log("La Data Combo Municipio", response.data);
+    setIniciaApp(false);
+  };
 
   const changeobtenerMunicipio = (e) => {
     console.log("Id Municipio", e.municipioId);
@@ -252,7 +352,7 @@ const NuevaSolicitud = () => {
     e.preventDefault();
     console.log("Esto se manda", solicitud);
     registrarSolicitud(solicitud, dispatch).then((response) => {
-      console.log("JSON ",JSON.stringify(solicitud));
+      console.log("JSON ", JSON.stringify(solicitud));
       // console.log("response.data.token", response.data.token);
       console.log(solicitud);
       if (response.status === 200) {
@@ -375,100 +475,181 @@ const NuevaSolicitud = () => {
       </div>
 
       <div style={style.paper}>
-        <Typography component="h1" variant="h5">
-          Direccion Particular
+        <Typography component="h1" variant="h5" className="text-center ">
+          Escoge la dirección:
+          <div className=" flex md:flex-row flex-col  justify-between mt-4 ">
+            {Botones.map((boton) => (
+              <button
+                key={boton.id}
+                onClick={() => {
+                  {
+                    botonElegido(boton.id);
+                    handleOpen();
+                  }
+                }}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-5 md:mt-0 mt-5"
+              >
+                {boton.titulo}
+              </button>
+            ))}
+          </div>
         </Typography>
         <form style={style.form}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={4}>
-              <TextField
-                name="calle"
-                value={solicitud.calle || ""}
-                onChange={ingresarValoresMemoria}
-                variant="outlined"
-                fullWidth
-                label="Ingrese Calle"
-              />
-            </Grid>
+          <Modal
+            open={open}
+            onClose={handleOpen}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+            style={{ overflow: "scroll", scrollSnapType: "y mandatory" }}
+          >
+            <Box>
+              <div className="flex flex-col justify- items-center md:w-auto w-11/12 mx-auto snap-y py-10">
+                <div className="w-full max-w-lg">
+                  <div className="flex flex-col items-center  bg-gray-100 w-full mx-auto p-1 rounded-md">
+                    <h1 className="text-3xl my-3 font-semibold">{Titulo}</h1>
 
-            <Grid item xs={12} md={4}>
-              <TextField
-                name="numeroExterior"
-                value={solicitud.numeroExterior || ""}
-                onChange={ingresarValoresMemoria}
-                variant="outlined"
-                fullWidth
-                label="Ingrese Numero exterior"
-              />
-            </Grid>
+                    <Grid container spacing={2}>
+                      <Grid item xs={12} md={4}>
+                        <TextField
+                          className="flex w-full  mx-auto"
+                          id="outlined-multiline-static"
+                          label="Calle"
+                          variant="outlined"
+                          name="calle"
+                          onChange={(e) =>
+                            setDireccion({
+                              ...Direccion,
+                              calle: e.target.value,
+                            })
+                          }
+                        />
+                      </Grid>
 
-            <Grid item xs={12} md={4}>
-              <TextField
-                name="numeroInterior"
-                value={solicitud.numeroInterior || ""}
-                onChange={ingresarValoresMemoria}
-                variant="outlined"
-                fullWidth
-                label="Ingrese Numero interior"
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <TextField
-                name="colonia"
-                value={solicitud.colonia || ""}
-                onChange={ingresarValoresMemoria}
-                variant="outlined"
-                fullWidth
-                label="Ingrese Colonia"
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Autocomplete
-                onChange={(event, newValue) => {
-                  changeobtenerEstado(newValue);
-                }}
-                id="idEstado"
-                name="idEstado"
-                options={ComboEstado}
-                getOptionLabel={(option) => option.nombre}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Seleccione Estado"
-                    variant="outlined"
-                  />
-                )}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Autocomplete
-                onChange={(event, newValue) => {
-                  changeobtenerMunicipio(newValue);
-                }}
-                id="idMunicipio"
-                name="idMunicipio"
-                options={ComboMunicipio}
-                getOptionLabel={(option) => option.nombre}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Seleccione Municipio"
-                    variant="outlined"
-                  />
-                )}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <TextField
-                name="codigoPostal"
-                value={solicitud.codigoPostal || ""}
-                onChange={ingresarValoresMemoria}
-                variant="outlined"
-                fullWidth
-                label="Ingrese Codigo Postal"
-              />
-            </Grid>
-          </Grid>
+                      <Grid item xs={12} md={4}>
+                        <TextField
+                          onChange={(e) => {
+                            setDireccion({
+                              ...Direccion,
+                              numeroExterior: e.target.value,
+                            });
+                          }}
+                          label="Numero Exterior"
+                          name="numeroExterior"
+                          className="flex w-full  mx-auto"
+                          id="outlined-multiline-static"
+                          variant="outlined"
+                        />
+                      </Grid>
+
+                      <Grid item xs={12} md={4}>
+                        <TextField
+                          onChange={(e) => {
+                            setDireccion({
+                              ...Direccion,
+                              numeroInterior: e.target.value,
+                            });
+                          }}
+                          name="numeroInterior"
+                          label="Ingrese Numero interior"
+                          className="flex w-full  mx-auto"
+                          id="outlined-multiline-static"
+                          variant="outlined"
+                        />
+                      </Grid>
+                      <Grid item xs={12} md={6}>
+                        <TextField
+                          onChange={(e) => {
+                            setDireccion({
+                              ...Direccion,
+                              colonia: e.target.value,
+                            });
+                          }}
+                          name="colonia"
+                          label="Ingrese Colonia"
+                          className="flex w-full  mx-auto"
+                          id="outlined-multiline-static"
+                          variant="outlined"
+                        />
+                      </Grid>
+                      <Grid item xs={12} md={6}>
+                        <Autocomplete
+                          onChange={(e) => {
+                            obtenerEstadoid(e.target.textContent);
+                            console.log(e.target.textContent);
+
+                            setDireccion({
+                              ...Direccion,
+                              estado: e.target.textContent,
+                            });
+                          }}
+                          id="idEstado"
+                          name="idEstado"
+                          options={ComboEstado}
+                          getOptionLabel={(option) => option.nombre}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              label="Seleccione Estado"
+                              variant="outlined"
+                            />
+                          )}
+                        />
+                      </Grid>
+                      <Grid item xs={12} md={6}>
+                        <Autocomplete
+                          onChange={(event, newValue) => {
+                            changeobtenerMunicipio(newValue);
+                            setDireccion({
+                              ...Direccion,
+                              municipio: newValue.municipioId,
+                            });
+                          }}
+                          id="idMunicipio"
+                          name="idMunicipio"
+                          options={ComboMunicipio}
+                          getOptionLabel={(option) => option.nombre}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              label="Seleccione Municipio"
+                              variant="outlined"
+                            />
+                          )}
+                        />
+                      </Grid>
+                      <Grid item xs={12} md={6}>
+                        <TextField
+                          name="codigoPostal"
+                          onChange={(e) => {
+                            setDireccion({
+                              ...Direccion,
+                              codigoPostal: e.target.value,
+                            });
+                          }}
+                          variant="outlined"
+                          fullWidth
+                          label="Ingrese Codigo Postal"
+                        />
+                      </Grid>
+                    </Grid>
+
+                    <div onClick={Guardar} className="flex flex-row mt-5">
+                      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-5 md:mt-0 mt-5 ">
+                        Guardar
+                      </button>
+
+                      <button
+                        onClick={() => cancelar()}
+                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mx-5 md:mt-0 mt-5 "
+                      >
+                        Cancelar
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Box>
+          </Modal>
         </form>
       </div>
       <div style={style.paper}>

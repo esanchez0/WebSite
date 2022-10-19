@@ -21,8 +21,9 @@ const ModalagregarCita = ({
   openCita,
   handleOpenCita,
   setopenCita,
-  idSolicitud,
+  idSolicitud2,
 }) => {
+
   const [infoCita, setinfoCita] = useState({
     fechaInicio: new Date(),
     fechaFin: new Date(),
@@ -31,7 +32,7 @@ const ModalagregarCita = ({
     idVisitador: "",
     observaciones: "",
     idEstatus: "",
-    idSolicitud: "",
+    idSolicitud: idSolicitud2,
   });
 
   const [PrimeroEn, setPrimeroEn] = useState([]);
@@ -55,11 +56,9 @@ const ModalagregarCita = ({
   }, [iniciaApp]);
 
   const enviarDatos = () => {
-    setinfoCita({
-      ...infoCita,
-      idSolicitud: idSolicitud,
-    });
+ 
     console.log("La Data Enviar", JSON.stringify(infoCita, null, 2));
+
   };
 
   const idPrimeroEn=(ocupacion)=>{

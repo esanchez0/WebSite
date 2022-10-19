@@ -181,7 +181,7 @@ const MostrarSolicitudes = () => {
       <ModalagregarCita
         openCita={openCita}
         handleOpenCita={handleOpenCita}
-        idSolicitud={idSolicitud}
+        idSolicitud2={idSolicitud}
         setopenCita={setopenCita}
         setInformation={setInformation}
       />
