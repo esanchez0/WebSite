@@ -22,7 +22,7 @@ import { obtenerMunicipioXEstadoId } from "../../actions/CatalogosAction";
 const NuevaSolicitud = () => {
   const [{ sesionUsuario }, dispatch] = useStateValue();
   const [Direccion, setDireccion] = useState({});
-  const [Referencias, setReferencias] = useState("")
+ 
 
 
   const [solicitud, setSolicitud] = useState({
